@@ -155,11 +155,10 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if row == 0 && component == 1 {
-            let buttonTitle = pickerView == pickerView ? NSLocalizedString("Select Qt. & Size", comment: "Select Quantity and Size") : NSLocalizedString("Select Quantity", comment: "Select Quantity")
+            let buttonTitle = pickerView == pickerView ? "Select Quantity and Size" : "Select Quantity"
             let sizeButton: UIButton? = (tableView.viewWithTag(pickerView.tag + SIZE_BUTTON_TAG_OFFSET) as? UIButton)
             sizeButton?.setTitle(buttonTitle, for: .normal)
-        }
-        else {
+        } else {
             if component == 1 {
                 let sizeButton: UIButton? = (tableView.viewWithTag(pickerView.tag + SIZE_BUTTON_TAG_OFFSET) as? UIButton)
                 let title: String = self.pickerView(pickerView, titleForRow: row, forComponent: component)!
@@ -183,7 +182,7 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
             let alert = UIAlertController(title: "Missing Size", message: "Please select a size.", preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
             alert.addAction(action)
-            alert.show(self, sender: nil)
+            present(alert, animated: true, completion: nil)
         } else {
             let controller = tabBarController?.viewControllers?[3].childViewControllers[0] as! ShoppingCartTableViewController
             var cartItem = [AnyHashable: Any]()
@@ -191,7 +190,8 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
             let indexPath = IndexPath(row: sender.tag, section: 0)
             let cell = tableView.cellForRow(at: indexPath) as! PFProductTableViewCell
             cartItem["quantity"] = (Int((cell.labelQuantity?.text)!))
-            if product?.value(forKey: "hasSize") != nil {
+            let hasSize = product?.value(forKey: "hasSize") as? Bool
+            if hasSize == true {
                 cartItem["size"] = size
             }
             controller.add(toCart: cartItem)

@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         controller0.navigationBar.isHidden = true
         let controller1 = PFProductsViewController()
         let controller2 = PFProductsViewController()
-        let controller3 = UINavigationController(rootViewController: ShoppingCartTableViewController())
+        let controller3 = UINavigationController(rootViewController: ShoppingCartTableViewController(style: .plain))
         let controller4 = UINavigationController(rootViewController: OrderHistoryTableViewController())
         controller4.navigationBar.isHidden = true
         tabBarController.viewControllers = [controller0, controller1, controller2, controller3, controller4]

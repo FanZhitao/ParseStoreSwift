@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         window?.makeKeyAndVisible()
         
         let tabBarController = UITabBarController()
-        let controller0 = UINavigationController(rootViewController: PFProductsViewController())
+        let controller0 = UINavigationController(rootViewController: PFProductsTableViewController(style: .plain))
         controller0.navigationBar.isHidden = true
         let controller1 = PFProductsViewController()
         let controller2 = PFProductsViewController()

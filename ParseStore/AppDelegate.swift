@@ -7,40 +7,92 @@
 //
 
 import UIKit
+import Parse
+import ParseUI
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate {
 
     var window: UIWindow?
 
+    // MARK: - life cycles
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let configuration = ParseClientConfiguration(block: {(configuration: ParseMutableClientConfiguration) -> Void in
+                configuration.server = "http://localhost:1337/parse"
+                configuration.applicationId = "APP_ID0"
+                configuration.clientKey = "MASTER_KEY0"
+            })
+        Parse.initialize(with: configuration)
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.backgroundColor = UIColor.white
+        window?.makeKeyAndVisible()
+        
+        let tabBarController = UITabBarController()
+        let controller0 = UINavigationController(rootViewController: PFProductsViewController())
+        controller0.navigationBar.isHidden = true
+        let controller1 = PFProductsViewController()
+        let controller2 = PFProductsViewController()
+        let controller3 = UINavigationController(rootViewController: ShoppingCartTableViewController())
+        let controller4 = UINavigationController(rootViewController: OrderHistoryTableViewController())
+        controller4.navigationBar.isHidden = true
+        tabBarController.viewControllers = [controller0, controller1, controller2, controller3, controller4]
+        controller0.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
+        controller1.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
+        controller2.tabBarItem = UITabBarItem(tabBarSystemItem: .topRated, tag: 2)
+        controller3.tabBarItem = UITabBarItem(title: "Cart", image: nil, tag: 3)
+        controller4.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 4)
+
+        window?.rootViewController = tabBarController
+        
         return true
     }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    
+    // MARK: - PFLogInViewControllerDelegate
+    
+    public func log(_ logInController: PFLogInViewController, shouldBeginLogInWithUsername username: String, password: String) -> Bool {
+        return true;
     }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    public func log(_ logInController: PFLogInViewController, didLogIn user: PFUser) {
+        logInController.dismiss(animated: true, completion: nil)
     }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    
+    public func log(_ logInController: PFLogInViewController, didFailToLogInWithError error: Error?) {
+        print("Error: \(String(describing: error?.localizedDescription))")
+        let controller = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action: UIAlertAction) -> Void in
+        })
+        controller.addAction(defaultAction)
+        logInController.present(controller, animated: true, completion: nil)
     }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    // MARK: - PFSignUpControllerDelegate
+    public func signUpViewController(_ signUpController: PFSignUpViewController, shouldBeginSignUp info: [String : String]) -> Bool {
+        return true
     }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+    public func signUpViewController(_ signUpController: PFSignUpViewController, didSignUp user: PFUser) {
+        signUpController.dismiss(animated: true, completion: {() -> Void in
+            var topViewController = self.window?.rootViewController
+            while ((topViewController?.presentedViewController) != nil) {
+                topViewController = topViewController?.presentedViewController
+            }
+            if (topViewController is PFLogInViewController) {
+                topViewController?.dismiss(animated: true, completion: nil)
+            }
+        })
     }
-
-
+    
+    public func signUpViewController(_ signUpController: PFSignUpViewController, didFailToSignUpWithError error: Error?) {
+        print("Error: \(String(describing: error?.localizedDescription))")
+        let controller = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action: UIAlertAction) -> Void in
+        })
+        controller.addAction(defaultAction)
+        signUpController.present(controller, animated: true, completion: nil)
+    }
 }
 

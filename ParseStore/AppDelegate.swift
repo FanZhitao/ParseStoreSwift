@@ -33,16 +33,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         let tabBarController = UITabBarController()
         let controller0 = UINavigationController(rootViewController: PFProductsTableViewController(style: .plain))
         controller0.navigationBar.isHidden = true
-        let controller1 = PFProductsViewController()
-        let controller2 = PFProductsViewController()
-        let controller3 = UINavigationController(rootViewController: ShoppingCartTableViewController(style: .plain))
-        let controller4 = UINavigationController(rootViewController: OrderHistoryTableViewController())
+        let controller3 = UINavigationController(rootViewController: PFShoppingCartTableViewController(style: .plain))
+        let controller4 = UINavigationController(rootViewController: PFOrderHistoryTableViewController(style: .plain))
         controller4.navigationBar.isHidden = true
-        tabBarController.viewControllers = [controller0, controller1, controller2, controller3, controller4]
+        tabBarController.viewControllers = [controller0, controller3, controller4]
         controller0.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 0)
-        controller1.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
-        controller2.tabBarItem = UITabBarItem(tabBarSystemItem: .topRated, tag: 2)
-        controller3.tabBarItem = UITabBarItem(title: "Cart", image: nil, tag: 3)
+        controller3.tabBarItem = UITabBarItem(title: "Cart", image: UIImage(named: "ShoppingCart.png")?.withRenderingMode(.automatic), tag: 3)
         controller4.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 4)
 
         window?.rootViewController = tabBarController

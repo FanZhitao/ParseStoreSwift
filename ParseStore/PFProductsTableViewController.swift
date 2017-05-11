@@ -38,11 +38,11 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Store"
         let poweredImage = UIImage(named: "Powered.png")!
         let footer = UIView(frame: CGRect(x: CGFloat((tableView.frame.size.width - poweredImage.size.width) / 2.0), y: CGFloat(0.0), width: CGFloat(tableView.frame.size.width), height: CGFloat(poweredImage.size.height + ROW_MARGIN * 2.0)))
         let poweredButton = UIButton(type: .custom)
         poweredButton.setImage(poweredImage, for: .normal)
-        poweredButton.addTarget(self, action: #selector(self.logout), for: .touchUpInside)
         poweredButton.frame = CGRect(x: CGFloat(0.0), y: CGFloat(-4.0), width: CGFloat(poweredImage.size.width), height: CGFloat(poweredImage.size.height + 20.0))
         footer.addSubview(poweredButton)
         tableView.tableFooterView = footer
@@ -62,10 +62,15 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
         pickerViewWithoutSize.isHidden = true
         pickerViewWithoutSize.backgroundColor = UIColor.white
         view.addSubview(pickerViewWithoutSize)
+        
+        let barButtonItem = UIBarButtonItem(title: "Logout", style: .done, target: self, action: #selector(self.logout))
+        navigationItem.rightBarButtonItem = barButtonItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = false
         tableView.contentOffset = CGPoint(x: CGFloat(0.0), y: CGFloat(0.0))
         tableView.isScrollEnabled = true
         pickerView.isHidden = true
@@ -85,7 +90,7 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let identifier = "ParseProduct"
-        var cell: PFProductTableViewCell? = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? PFProductTableViewCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? PFProductTableViewCell
         if cell == nil {
             cell = PFProductTableViewCell(style: .default, reuseIdentifier: identifier)
         }
@@ -149,7 +154,7 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
         if component == 0 {
             return String(row + 1)
         } else {
-            return row == 0 ? "Select Size" : PFProducts.sizes()[row - 1] as! String
+            return row == 0 ? "Select Size" : PFProducts.sizes()[row - 1] 
         }
     }
     
@@ -184,17 +189,23 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
             alert.addAction(action)
             present(alert, animated: true, completion: nil)
         } else {
-            let controller = tabBarController?.viewControllers?[3].childViewControllers[0] as! ShoppingCartTableViewController
-            var cartItem = [AnyHashable: Any]()
-            cartItem["product"] = product
-            let indexPath = IndexPath(row: sender.tag, section: 0)
-            let cell = tableView.cellForRow(at: indexPath) as! PFProductTableViewCell
-            cartItem["quantity"] = (Int((cell.labelQuantity?.text)!))
-            let hasSize = product?.value(forKey: "hasSize") as? Bool
-            if hasSize == true {
-                cartItem["size"] = size
+            var index = 0
+            while index < (tabBarController?.viewControllers?.count)! && tabBarController?.viewControllers?[index].childViewControllers[0] is PFShoppingCartTableViewController == false {
+                index += 1
             }
-            controller.add(toCart: cartItem)
+            if index < (tabBarController?.viewControllers?.count)! {
+                let controller = tabBarController?.viewControllers?[index].childViewControllers[0] as! PFShoppingCartTableViewController
+                var cartItem = [AnyHashable: Any]()
+                cartItem["product"] = product
+                let indexPath = IndexPath(row: sender.tag, section: 0)
+                let cell = tableView.cellForRow(at: indexPath) as! PFProductTableViewCell
+                cartItem["quantity"] = (Int((cell.labelQuantity?.text)!))
+                let hasSize = product?.value(forKey: "hasSize") as? Bool
+                if hasSize == true {
+                    cartItem["size"] = size
+                }
+                controller.add(toCart: cartItem)
+            }
         }
     }
     

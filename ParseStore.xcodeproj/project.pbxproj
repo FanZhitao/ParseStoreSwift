@@ -108,6 +108,9 @@
 		31C48D841EC172C600362881 /* topBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 31C48D551EC172C600362881 /* topBarBg@2x.png */; };
 		31C48D861EC1A96100362881 /* PFProductsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C48D851EC1A96100362881 /* PFProductsTableViewController.swift */; };
 		31D2B0A01EC3A56600492657 /* PFShoppingCartTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D2B09F1EC3A56600492657 /* PFShoppingCartTableViewController.swift */; };
+		31D2B0A21EC3B40500492657 /* PFOrderHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D2B0A11EC3B40500492657 /* PFOrderHistoryTableViewController.swift */; };
+		31D2B0A41EC3B77400492657 /* PFProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D2B0A31EC3B77400492657 /* PFProducts.swift */; };
+		31D2B0A61EC3EA8000492657 /* ShoppingCart.png in Resources */ = {isa = PBXBuildFile; fileRef = 31D2B0A51EC3EA8000492657 /* ShoppingCart.png */; };
 		8C1BA56DB4472D72C1B9E476 /* Pods_ParseStoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F990AD62445A878A09643E84 /* Pods_ParseStoreTests.framework */; };
 		B17DCC2D1B8D94ED4F06D52F /* Pods_ParseStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D715BB05AACC1B68BE7E1E82 /* Pods_ParseStore.framework */; };
 /* End PBXBuildFile section */
@@ -268,6 +271,9 @@
 		31C48D551EC172C600362881 /* topBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topBarBg@2x.png"; sourceTree = "<group>"; };
 		31C48D851EC1A96100362881 /* PFProductsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PFProductsTableViewController.swift; sourceTree = "<group>"; };
 		31D2B09F1EC3A56600492657 /* PFShoppingCartTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PFShoppingCartTableViewController.swift; sourceTree = "<group>"; };
+		31D2B0A11EC3B40500492657 /* PFOrderHistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PFOrderHistoryTableViewController.swift; sourceTree = "<group>"; };
+		31D2B0A31EC3B77400492657 /* PFProducts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PFProducts.swift; path = Classes/PFProducts.swift; sourceTree = "<group>"; };
+		31D2B0A51EC3EA8000492657 /* ShoppingCart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShoppingCart.png; sourceTree = "<group>"; };
 		41B703E97A176C5E192E3637 /* Pods_ParseStoreUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParseStoreUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43A2D2E25CAFA2438EC5B0E8 /* Pods-ParseStoreUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParseStoreUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ParseStoreUITests/Pods-ParseStoreUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6564E1E9BDA88BFAD8644B1C /* Pods-ParseStore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParseStore.release.xcconfig"; path = "Pods/Target Support Files/Pods-ParseStore/Pods-ParseStore.release.xcconfig"; sourceTree = "<group>"; };
@@ -335,6 +341,8 @@
 				31C48C4E1EBFAF1D00362881 /* AppDelegate.swift */,
 				31C48D851EC1A96100362881 /* PFProductsTableViewController.swift */,
 				31D2B09F1EC3A56600492657 /* PFShoppingCartTableViewController.swift */,
+				31D2B0A11EC3B40500492657 /* PFOrderHistoryTableViewController.swift */,
+				31D2B0A31EC3B77400492657 /* PFProducts.swift */,
 				31C48C541EBFAF1D00362881 /* Main.storyboard */,
 				31C48C571EBFAF1D00362881 /* Assets.xcassets */,
 				31C48C591EBFAF1D00362881 /* LaunchScreen.storyboard */,
@@ -518,6 +526,7 @@
 		31C48D261EC172AC00362881 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				31D2B0A51EC3EA8000492657 /* ShoppingCart.png */,
 				31C48D271EC172C600362881 /* arrow.png */,
 				31C48D281EC172C600362881 /* arrow@2x.png */,
 				31C48D291EC172C600362881 /* ButtonBack.png */,
@@ -753,6 +762,7 @@
 				31C48D7F1EC172C600362881 /* product.png in Resources */,
 				31C48D5A1EC172C600362881 /* ButtonBackPressed.png in Resources */,
 				31C48D771EC172C600362881 /* iconCheckout.png in Resources */,
+				31D2B0A61EC3EA8000492657 /* ShoppingCart.png in Resources */,
 				31C48D761EC172C600362881 /* Icon@2x.png in Resources */,
 				31C48D801EC172C600362881 /* product@2x.png in Resources */,
 				31C48D151EBFE5D600362881 /* diners@2x.png in Resources */,
@@ -959,6 +969,7 @@
 				31C48D071EBFE5D600362881 /* PKCardCVCDelegate.m in Sources */,
 				31C48CC21EBFE59100362881 /* PFProductTableViewCell.m in Sources */,
 				31C48D0D1EBFE5D600362881 /* PKView.m in Sources */,
+				31D2B0A41EC3B77400492657 /* PFProducts.swift in Sources */,
 				31C48CBC1EBFE59100362881 /* OrderHistoryTableViewCell.m in Sources */,
 				31C48D221EBFE5D600362881 /* Stripe.m in Sources */,
 				31C48CBD1EBFE59100362881 /* OrderHistoryTableViewController.m in Sources */,
@@ -966,6 +977,7 @@
 				31C48D201EBFE5D600362881 /* STPCard.m in Sources */,
 				31C48D0A1EBFE5D600362881 /* PKCardNumber.m in Sources */,
 				31C48D231EBFE5D600362881 /* StripeError.m in Sources */,
+				31D2B0A21EC3B40500492657 /* PFOrderHistoryTableViewController.swift in Sources */,
 				31C48D0B1EBFE5D600362881 /* PKCardNumberDelegate.m in Sources */,
 				31C48D241EBFE5D600362881 /* MBProgressHUD.m in Sources */,
 			);

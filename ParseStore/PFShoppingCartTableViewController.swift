@@ -15,7 +15,7 @@ class PFShoppingCartTableViewController: PFQueryTableViewController {
     init(style: UITableViewStyle) {
         super.init(style:UITableViewStyle.plain, className: "Cart")
         
-        tableView.register(ShoppingCartTableViewCell.self, forCellReuseIdentifier: "ShoppingCartItem")
+        tableView.register(ShoppingCartTableViewCell.self, forCellReuseIdentifier: "ShoppingCartTableViewCell")
         tableView.separatorStyle = .none
     }
     
@@ -42,7 +42,7 @@ class PFShoppingCartTableViewController: PFQueryTableViewController {
     // MARK: - overrided funcs
     
     override func queryForTable() -> PFQuery<PFObject> {
-        var query = PFQuery(className: parseClassName!)
+        let query = PFQuery(className: parseClassName!)
         if PFUser.current() != nil {
             query.whereKey("user", equalTo: PFUser.current()!)
             query.whereKey("valid", equalTo: true)
@@ -67,7 +67,11 @@ class PFShoppingCartTableViewController: PFQueryTableViewController {
     
     func add(toCart cartItem: [AnyHashable: Any]) {
         postItem(cartItem)
-        let tabBarItem = tabBarController?.tabBar.items?[3]
+        var index = 0
+        while tabBarController?.childViewControllers[index] != navigationController {
+            index += 1
+        }
+        let tabBarItem = tabBarController?.tabBar.items?[index]
         var count = Int((tabBarItem?.badgeValue)!)!
         count += cartItem["quantity"]! as! Int
         tabBarItem?.badgeValue = String(count)
@@ -106,7 +110,11 @@ class PFShoppingCartTableViewController: PFQueryTableViewController {
     }
     
     func updateTabItemBadgeCount() {
-        let tabBarItem = tabBarController?.tabBar.items?[3]
+        var index = 0
+        while tabBarController?.viewControllers?[index].childViewControllers[0] != self {
+            index += 1
+        }
+        let tabBarItem = tabBarController?.tabBar.items?[index]
         var count = 0
         for object: PFObject in objects! {
             count += object["quantity"]! as! Int
@@ -116,16 +124,27 @@ class PFShoppingCartTableViewController: PFQueryTableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let identifier = "ShoppingCartTableViewCell"
+        var cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? ShoppingCartTableViewCell
+        if cell == nil {
+            cell = ShoppingCartTableViewCell(style: .default, reuseIdentifier: identifier)
+        }
+        
+        if indexPath.row < (objects?.count)! {
+            let object = objects?[indexPath.row]
+            cell?.configureObject(object)
+        }
+        
+        return cell!
+        
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+    public override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 173.0
     }
-
+    
     // MARK: - actions
     
     func checkout() {

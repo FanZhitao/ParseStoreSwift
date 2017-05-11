@@ -19,5 +19,7 @@
 #import "PFProductTableViewCell.h"
 #import "ShoppingCartTableViewCell.h"
 #import "PFShippingViewController.h"
+#import "ShoppingCartTableViewCell.h"
+#import "OrderHistoryTableViewCell.h"
 
 #endif /* ParseStore_Bridging_Header_h */

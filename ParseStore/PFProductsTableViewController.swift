@@ -111,24 +111,7 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
     // MARK: - UITableViewDelegate
     
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UIView.animate(withDuration: 0.1, animations: {() -> Void in
-            let item = self.objects?[indexPath.row]
-            if ((item?.object(forKey: "hasSize")) != nil) {
-                self.pickerView.frame = CGRect(x: CGFloat(0.0), y: CGFloat(self.pickerView.frame.origin.y + self.PICKER_HEIGHT), width: CGFloat(tableView.frame.size.width), height: CGFloat(self.PICKER_HEIGHT))
-            }
-            else {
-                self.pickerViewWithoutSize.frame = CGRect(x: CGFloat(0.0), y: CGFloat(self.pickerView.frame.origin.y + self.PICKER_HEIGHT), width: CGFloat(tableView.frame.size.width), height: CGFloat(self.PICKER_HEIGHT))
-            }
-        }, completion: {(_ finished: Bool) -> Void in
-            self.pickerView.isHidden = true
-            self.pickerViewWithoutSize.isHidden = true
-            tableView.isScrollEnabled = true
-            let numRows = self.tableView(tableView, numberOfRowsInSection: 0)
-            let maxOffset: CGFloat = CGFloat(numRows) * self.ROW_HEIGHT - self.view.frame.size.height + 36.0
-            if tableView.contentOffset.y > maxOffset {
-                tableView.setContentOffset(CGPoint(x: CGFloat(0.0), y: maxOffset), animated: true)
-            }
-        })
+        dismissPickerView(indexPath: indexPath)
     }
     
     // MARK: - UIPickerViewDataSource
@@ -205,7 +188,11 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
                     cartItem["size"] = size
                 }
                 controller.add(toCart: cartItem)
+                
+                dismissPickerView(indexPath: indexPath)
             }
+            
+            
         }
     }
     
@@ -236,5 +223,27 @@ class PFProductsTableViewController: PFQueryTableViewController, UIPickerViewDel
         controller.delegate = ((UIApplication.shared.delegate) as? AppDelegate)
         controller.signUpController?.delegate = ((UIApplication.shared.delegate) as? AppDelegate)
         present(controller, animated: true, completion: nil)
+    }
+    
+    // MARK: - private funcs
+    func dismissPickerView(indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.1, animations: {() -> Void in
+            let item = self.objects?[indexPath.row]
+            if ((item?.object(forKey: "hasSize")) != nil) {
+                self.pickerView.frame = CGRect(x: CGFloat(0.0), y: CGFloat(self.pickerView.frame.origin.y + self.PICKER_HEIGHT), width: CGFloat(self.tableView.frame.size.width), height: CGFloat(self.PICKER_HEIGHT))
+            }
+            else {
+                self.pickerViewWithoutSize.frame = CGRect(x: CGFloat(0.0), y: self.pickerView.frame.origin.y + self.PICKER_HEIGHT, width: self.tableView.frame.size.width, height: self.PICKER_HEIGHT)
+            }
+        }, completion: {(_ finished: Bool) -> Void in
+            self.pickerView.isHidden = true
+            self.pickerViewWithoutSize.isHidden = true
+            self.tableView.isScrollEnabled = true
+            let numRows = self.tableView(self.tableView, numberOfRowsInSection: 0)
+            let maxOffset: CGFloat = CGFloat(numRows) * self.ROW_HEIGHT - self.view.frame.size.height + 36.0
+            if self.tableView.contentOffset.y > maxOffset {
+                self.tableView.setContentOffset(CGPoint(x: CGFloat(0.0), y: maxOffset), animated: true)
+            }
+        })
     }
 }

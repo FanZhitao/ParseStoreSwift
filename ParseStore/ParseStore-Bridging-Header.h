@@ -21,5 +21,8 @@
 #import "PFShippingViewController.h"
 #import "ShoppingCartTableViewCell.h"
 #import "OrderHistoryTableViewCell.h"
+#import "PFCheckoutViewController.h"
+#import "MBProgressHUD.h"
+#import "PFFinishViewController.h"
 
 #endif /* ParseStore_Bridging_Header_h */

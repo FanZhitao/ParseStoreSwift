@@ -23,6 +23,11 @@
     return self;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
 
 #pragma mark - UIViewController
 

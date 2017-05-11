@@ -49,5 +49,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>PARSE_APPLICATION_ID</key>
+	<string>${PARSE_APPLICATION_ID}</string>
+	<key>PARSE_CLIENT_KEY</key>
+	<string>${PARSE_CLIENT_KEY}</string>
+	<key>STRIPE_PUBLISHABLE_KEY</key>
+	<string>${STRIPE_PUBLISHABLE_KEY}</string>
 </dict>
 </plist>

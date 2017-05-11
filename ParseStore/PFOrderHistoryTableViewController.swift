@@ -28,13 +28,21 @@ class PFOrderHistoryTableViewController: PFQueryTableViewController {
         loadObjects()
         NotificationCenter.default.addObserver(self, selector: #selector(self.checkoutFinished), name: NSNotification.Name(rawValue: "CheckoutFinished"), object: nil)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.loadObjects()
+    }
 
     // MARK: - Table view data source
 
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let identifier = "OrderHistoryTableViewCell"
-        var cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? OrderHistoryTableViewCell
+        // FIXME: 111
+        //var cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? OrderHistoryTableViewCell
+        var cell : OrderHistoryTableViewCell?
         if cell == nil {
             cell = OrderHistoryTableViewCell(style: .default, reuseIdentifier: identifier)
         }

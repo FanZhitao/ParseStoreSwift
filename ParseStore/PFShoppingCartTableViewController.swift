@@ -37,6 +37,11 @@ class PFShoppingCartTableViewController: PFQueryTableViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = false
+        
+        let topController = navigationController?.topViewController
+        if topController is PFFinishViewController {
+            navigationController?.popViewController(animated: false)
+        }
     }
     
     // MARK: - overrided funcs
@@ -72,7 +77,7 @@ class PFShoppingCartTableViewController: PFQueryTableViewController {
             index += 1
         }
         let tabBarItem = tabBarController?.tabBar.items?[index]
-        var count = Int((tabBarItem?.badgeValue)!)!
+        var count = Int(tabBarItem?.badgeValue ?? "0")!
         count += cartItem["quantity"]! as! Int
         tabBarItem?.badgeValue = String(count)
     }
@@ -149,9 +154,9 @@ class PFShoppingCartTableViewController: PFQueryTableViewController {
     
     func checkout() {
         if (objects?.count)! > 0 {
-            let shippingController = PFShippingViewController(cartItems: objects)
+            let shippingController = PFShippingTableViewController(items: objects)
             navigationController?.navigationBar.isHidden = true
-            navigationController?.pushViewController(shippingController!, animated: true)
+            navigationController?.pushViewController(shippingController, animated: true)
         }
     }
     
